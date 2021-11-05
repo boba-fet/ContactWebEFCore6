@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ContactWebModels;
 using MyContactManagerData;
+using ContactWebEFCore6.Models;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace ContactWebEFCore6.Controllers
 {
@@ -15,12 +17,27 @@ namespace ContactWebEFCore6.Controllers
         private readonly MyContactManagerDbContext _context;
         private static List<State> _allStates;
         private static SelectList _statesData;
+        private IMemoryCache _cache;
 
-        public ContactsController(MyContactManagerDbContext context)
+        public ContactsController(MyContactManagerDbContext context, IMemoryCache cache)
         {
             _context = context;
-            _allStates = Task.Run(() => _context.States.ToListAsync()).Result;
+            _cache = cache;
+            SetAllStatesCachingData();
             _statesData = new SelectList(_allStates, "Id", "Abbreviation");
+        }
+
+        private void SetAllStatesCachingData()
+        {
+            var allStates = new List<State>();
+            if (!_cache.TryGetValue(ContactCacheConstants.ALL_STATES, out allStates))
+            {
+                var allStatesData = Task.Run(() => _context.States.ToListAsync()).Result;
+
+                _cache.Set(ContactCacheConstants.ALL_STATES, allStatesData, TimeSpan.FromDays(1));
+                allStates = _cache.Get(ContactCacheConstants.ALL_STATES) as List<State>;
+            }
+            _allStates = allStates;
         }
 
         private async Task UpdateStateAndResetModelState(Contact contact)
@@ -74,6 +91,9 @@ namespace ContactWebEFCore6.Controllers
             UpdateStateAndResetModelState(contact);
             if (ModelState.IsValid)
             {
+                //hack to get the state hydrated
+                var state = await _context.States.SingleOrDefaultAsync(x => x.Id == contact.StateId);
+                contact.State = state;
                 await _context.Contacts.AddAsync(contact);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
