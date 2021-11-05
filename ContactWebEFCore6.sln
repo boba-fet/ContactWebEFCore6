@@ -5,7 +5,9 @@ VisualStudioVersion = 17.0.31825.309
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContactWebEFCore6", "ContactWebEFCore6\ContactWebEFCore6.csproj", "{8E70D833-561C-4011-92CB-41CA8D143243}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactWebModels", "ContactWebModels\ContactWebModels.csproj", "{57F16376-4929-4CD9-900F-1A4171F30C4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContactWebModels", "ContactWebModels\ContactWebModels.csproj", "{57F16376-4929-4CD9-900F-1A4171F30C4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyContactManagerData", "MyContactManagerData\MyContactManagerData.csproj", "{CB246CDA-C99C-448E-9B0D-805AF669BEB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{57F16376-4929-4CD9-900F-1A4171F30C4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57F16376-4929-4CD9-900F-1A4171F30C4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57F16376-4929-4CD9-900F-1A4171F30C4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB246CDA-C99C-448E-9B0D-805AF669BEB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB246CDA-C99C-448E-9B0D-805AF669BEB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB246CDA-C99C-448E-9B0D-805AF669BEB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB246CDA-C99C-448E-9B0D-805AF669BEB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
