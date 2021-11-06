@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContactWebEFCore6", "Contac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContactWebModels", "ContactWebModels\ContactWebModels.csproj", "{57F16376-4929-4CD9-900F-1A4171F30C4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyContactManagerData", "MyContactManagerData\MyContactManagerData.csproj", "{CB246CDA-C99C-448E-9B0D-805AF669BEB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyContactManagerData", "MyContactManagerData\MyContactManagerData.csproj", "{CB246CDA-C99C-448E-9B0D-805AF669BEB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyContactManagerRepositories", "MyContactManagerRepositories\MyContactManagerRepositories.csproj", "{CB5FAF81-B385-4095-9E47-1F20DFFFB800}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyContactManagerServices", "MyContactManagerServices\MyContactManagerServices.csproj", "{A1B9CB2B-3427-48ED-86EF-773054A64FC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{CB246CDA-C99C-448E-9B0D-805AF669BEB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB246CDA-C99C-448E-9B0D-805AF669BEB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB246CDA-C99C-448E-9B0D-805AF669BEB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB5FAF81-B385-4095-9E47-1F20DFFFB800}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB5FAF81-B385-4095-9E47-1F20DFFFB800}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB5FAF81-B385-4095-9E47-1F20DFFFB800}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB5FAF81-B385-4095-9E47-1F20DFFFB800}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1B9CB2B-3427-48ED-86EF-773054A64FC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1B9CB2B-3427-48ED-86EF-773054A64FC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1B9CB2B-3427-48ED-86EF-773054A64FC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1B9CB2B-3427-48ED-86EF-773054A64FC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
