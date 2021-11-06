@@ -1,37 +1,45 @@
 ﻿using ContactWebModels;
+using MyContactManagerRepositories;
 
 namespace MyContactManagerServices
 {
     public class ContactsService : IContactsService
     {
-        public Task<int> AddOrUpdateAsync(Contact state)
+        private IContactsRepository _contactsRepository;
+
+        public ContactsService(IContactsRepository contactsRepo)
         {
-            throw new NotImplementedException();
+            _contactsRepository = contactsRepo;
         }
 
-        public Task<int> DeleteAsync(Contact state)
+        public async Task<IList<Contact>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _contactsRepository.GetAllAsync();
         }
 
-        public Task<int> DeleteAsync(int id)
+        public async Task<Contact?> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _contactsRepository.GetAsync(id);
         }
 
-        public Task<bool> ExistsAsync(int id)
+        public async Task<int> AddOrUpdateAsync(Contact contact)
         {
-            throw new NotImplementedException();
+            return await _contactsRepository.AddOrUpdateAsync(contact);
         }
 
-        public Task<IList<Contact>> GetAllAsync()
+        public async Task<int> DeleteAsync(Contact contact)
         {
-            throw new NotImplementedException();
+            return await _contactsRepository.DeleteAsync(contact);
         }
 
-        public Task<Contact?> GetAsync(int id)
+        public async Task<int> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _contactsRepository.DeleteAsync(id);
+        }
+
+        public async Task<bool> ExistsAsync(int id)
+        {
+            return await _contactsRepository.ExistsAsync(id);
         }
     }
 }
