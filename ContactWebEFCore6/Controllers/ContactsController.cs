@@ -9,19 +9,22 @@ using ContactWebModels;
 using MyContactManagerData;
 using ContactWebEFCore6.Models;
 using Microsoft.Extensions.Caching.Memory;
+using MyContactManagerServices;
 
 namespace ContactWebEFCore6.Controllers
 {
     public class ContactsController : Controller
     {
-        private readonly MyContactManagerDbContext _context;
         private static List<State> _allStates;
         private static SelectList _statesData;
         private IMemoryCache _cache;
+        private IContactsService _contactsService;
+        private readonly IStatesService _statesService;
 
-        public ContactsController(MyContactManagerDbContext context, IMemoryCache cache)
+        public ContactsController(IMemoryCache cache, IContactsService contactsService, IStatesService statesService)
         {
-            _context = context;
+            _contactsService = contactsService;
+            _statesService = statesService;
             _cache = cache;
             SetAllStatesCachingData();
             _statesData = new SelectList(_allStates, "Id", "Abbreviation");
@@ -32,7 +35,7 @@ namespace ContactWebEFCore6.Controllers
             var allStates = new List<State>();
             if (!_cache.TryGetValue(ContactCacheConstants.ALL_STATES, out allStates))
             {
-                var allStatesData = Task.Run(() => _context.States.ToListAsync()).Result;
+                var allStatesData = Task.Run(() => _statesService.GetAllAsync()).Result;
 
                 _cache.Set(ContactCacheConstants.ALL_STATES, allStatesData, TimeSpan.FromDays(1));
                 allStates = _cache.Get(ContactCacheConstants.ALL_STATES) as List<State>;
@@ -51,8 +54,8 @@ namespace ContactWebEFCore6.Controllers
         // GET: Contacts
         public async Task<IActionResult> Index()
         {
-            var contacts = _context.Contacts.Include(c => c.State);
-            return View(await contacts.ToListAsync());
+            var contacts = await _contactsService.GetAllAsync();
+            return View(contacts);
         }
 
         // GET: Contacts/Details/5
@@ -63,9 +66,7 @@ namespace ContactWebEFCore6.Controllers
                 return NotFound();
             }
 
-            var contact = await _context.Contacts
-                .Include(c => c.State)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var contact = await _contactsService.GetAsync((int)id);
             if (contact == null)
             {
                 return NotFound();
@@ -91,11 +92,7 @@ namespace ContactWebEFCore6.Controllers
             UpdateStateAndResetModelState(contact);
             if (ModelState.IsValid)
             {
-                //hack to get the state hydrated
-                var state = await _context.States.SingleOrDefaultAsync(x => x.Id == contact.StateId);
-                contact.State = state;
-                await _context.Contacts.AddAsync(contact);
-                await _context.SaveChangesAsync();
+                await _contactsService.AddOrUpdateAsync(contact);
                 return RedirectToAction(nameof(Index));
             }
             ViewData["StateId"]  = _statesData;
@@ -110,7 +107,7 @@ namespace ContactWebEFCore6.Controllers
                 return NotFound();
             }
 
-            var contact = await _context.Contacts.FindAsync(id);
+            var contact = await _contactsService.GetAsync((int)id);
             if (contact == null)
             {
                 return NotFound();
@@ -136,12 +133,11 @@ namespace ContactWebEFCore6.Controllers
             {
                 try
                 {
-                    _context.Contacts.Update(contact);
-                    await _context.SaveChangesAsync();
+                    await _contactsService.AddOrUpdateAsync(contact);  
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ContactExists(contact.Id))
+                    if (!await ContactExists(contact.Id))
                     {
                         return NotFound();
                     }
@@ -164,9 +160,7 @@ namespace ContactWebEFCore6.Controllers
                 return NotFound();
             }
 
-            var contact = await _context.Contacts
-                .Include(c => c.State)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var contact = await _contactsService.GetAsync((int)id);
             if (contact == null)
             {
                 return NotFound();
@@ -180,15 +174,13 @@ namespace ContactWebEFCore6.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var contact = await _context.Contacts.FindAsync(id);
-            _context.Contacts.Remove(contact);
-            await _context.SaveChangesAsync();
+            await _contactsService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ContactExists(int id)
+        private async Task<bool> ContactExists(int id)
         {
-            return _context.Contacts.Any(e => e.Id == id);
+            return await _contactsService.ExistsAsync(id);
         }
     }
 }
