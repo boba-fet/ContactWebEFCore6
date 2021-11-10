@@ -10,9 +10,11 @@ using MyContactManagerData;
 using ContactWebEFCore6.Models;
 using Microsoft.Extensions.Caching.Memory;
 using MyContactManagerServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ContactWebEFCore6.Controllers
 {
+    [Authorize]
     public class ContactsController : Controller
     {
         private readonly IContactsService _contactsService;
