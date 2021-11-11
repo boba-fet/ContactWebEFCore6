@@ -76,12 +76,7 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Zip)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserId)
+            @Html.HiddenFor(model => model.UserId)
         </dd>
     </dl>
     

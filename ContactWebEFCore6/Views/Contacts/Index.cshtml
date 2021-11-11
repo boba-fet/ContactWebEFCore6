@@ -4,7 +4,9 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
+
+<h3>@ViewData["customValue"]</h3>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -45,9 +47,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Zip)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserId)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -86,11 +85,10 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Zip)
+                @Html.HiddenFor(modelItem => item.UserId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
+                
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
