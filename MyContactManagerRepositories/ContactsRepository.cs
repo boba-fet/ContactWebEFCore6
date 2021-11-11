@@ -13,25 +13,30 @@ namespace MyContactManagerRepositories
             _context = dbContext;
         }
 
-        public async Task<IList<Contact>> GetAllAsync()
+        public async Task<IList<Contact>> GetAllAsync(string userId)
         {
             var results = await _context.Contacts.Include(x => x.State)
                                         .AsNoTracking()
+                                        .Where(x => x.UserId == userId)
                                         .ToListAsync();
             return results.OrderBy(x => x.LastName).ThenBy(x => x.FirstName).ToList();
         }
 
-        public async Task<Contact?> GetAsync(int id)
+        public async Task<Contact?> GetAsync(int id, string userId)
         {
-            var result = await _context.Contacts.AsNoTracking()
-                                    .SingleOrDefaultAsync(x => x.Id == id);
+            var result = await _context.Contacts.Include(x => x.State).AsNoTracking()
+                                    .SingleOrDefaultAsync(x => x.Id == id && x.UserId == userId);
             return result;
         }
 
-        public async Task<int> AddOrUpdateAsync(Contact contact)
+        public async Task<int> AddOrUpdateAsync(Contact contact, string userId)
         {
             if (contact.Id > 0)
             {
+                if (!await ExistsAsync(contact.Id, userId))
+                {
+                    throw new Exception("Contact Not Found");
+                }
                 return await Update(contact);
             }
 
@@ -78,15 +83,15 @@ namespace MyContactManagerRepositories
             return contact.Id;
         }
 
-        public async Task<int> DeleteAsync(Contact contact)
+        public async Task<int> DeleteAsync(Contact contact, string userId)
         {
-            return await DeleteAsync(contact.Id);
+            return await DeleteAsync(contact.Id, userId);
         }
 
-        public async Task<int> DeleteAsync(int id)
+        public async Task<int> DeleteAsync(int id, string userId)
         {
             var existingContact = await _context.Contacts
-                                                .SingleOrDefaultAsync(x => x.Id == id);
+                                                .SingleOrDefaultAsync(x => x.Id == id && x.UserId == userId);
             if (existingContact is null) throw new Exception("Could not Delete Contact due to unable to find matching state in the database");
 
             await Task.Run(() => { _context.Contacts.Remove(existingContact); });
@@ -94,11 +99,11 @@ namespace MyContactManagerRepositories
             return id;
         }
 
-        public async Task<bool> ExistsAsync(int id)
+        public async Task<bool> ExistsAsync(int id, string userId)
         {
             return await _context.Contacts
                                     .AsNoTracking()
-                                    .AnyAsync(x => x.Id == id);
+                                    .AnyAsync(x => x.Id == id && x.UserId == userId);
         }
     }
 }
