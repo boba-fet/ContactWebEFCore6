@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Contact Web Manager</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="css/datatables.min.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Contact Web Manager</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Contacts" asp-action="Index">Contacts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="States" asp-action="Index">States</a>
+                        </li>
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            
+            <a href="#" data-bs-toggle="modal" data-bs-target="#contactDetailsModal" 
+                data-bs-friendlyName="John Smith" data-bs-firstName="John" data-bs-lastName="Smith"
+                data-bs-email="john@john.com" data-bs-phone1="555-555-1212" data-bs-phone2="666-666-6666"
+                data-bs-birthday="12/15/2953" data-bs-friendlyAddress="123 West 9th St, Lot 7, Topeka, KS, 98765">Details</a>
+
+
+            <div class="modal fade" id="contactDetailsModal" tabindex="-1" aria-labelledby="contactDetailsModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="contactDetailsModalLabel">Contact Name</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <dl class="row">
+                            <dt class = "col-sm-4">
+                                First Name
+                            </dt>
+                            <dd class = "col-sm-8">
+                                <span class="modal-first-name">
+                            </dd>
+                            <dt class = "col-sm-4">
+                                Last Name
+                            </dt>
+                            <dd class = "col-sm-8">
+                                <span class="modal-last-name">
+                            </dd>
+                            <dt class = "col-sm-4">
+                                Email Address:
+                            </dt>
+                            <dd class = "col-sm-8">
+                                <span class="modal-email-address">
+                            </dd>
+                            <dt class = "col-sm-4">
+                                Primary Phone:
+                            </dt>
+                            <dd class = "col-sm-8">
+                                <span class="modal-primary-phone">
+                            </dd>
+                            <dt class = "col-sm-4">
+                                Secondary Phone:
+                            </dt>
+                            <dd class = "col-sm-8">
+                                <span class="modal-secondary-phone">
+                            </dd>
+                            <dt class = "col-sm-4">
+                                Birthday:
+                            </dt>
+                            <dd class = "col-sm-8">
+                                <span class="modal-birthday">
+                            </dd>
+                            <dt class = "col-sm-4">
+                                Address:
+                            </dt>
+                            <dd class = "col-sm-8">
+                                <span class="modal-street-address">
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - ContactWebEFCore6 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/bootstrap.bundle.min.js"></script>
+    <script src="lib/datatables.min.js"></script>
+    <script src="js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        var contactDetailsModal = document.getElementById('contactDetailsModal')
+        contactDetailsModal.addEventListener('show.bs.modal', function (event) {
+
+            alert('here');
+            var button = event.relatedTarget;
+
+
+            var title = button.getAttribute('data-bs-friendlyName');
+            var firstName= button.getAttribute('data-bs-firstName');
+            var lastName= button.getAttribute('data-bs-lastName');
+            var email = button.getAttribute('data-bs-email');
+            var phone1 = button.getAttribute('data-bs-phone1');
+            var phone2 = button.getAttribute('data-bs-phone2');
+            var birthday = button.getAttribute('data-bs-birthday');
+            var address = button.getAttribute('data-bs-friendlyAddress');
+
+            alert(title);
+
+            var modalTitle = contactDetailsModal.querySelector('.modal-title');
+            modalTitle.textContent = title;
+            var modalFirstName = contactDetailsModal.querySelector('.modal-first-name');
+            modalFirstName.textContent = firstName;
+            var modalLastName = contactDetailsModal.querySelector('.modal-last-name');
+            modalLastName.textContent = lastName;
+            var modalEmail = contactDetailsModal.querySelector('.modal-email-address');
+            modalEmail.textContent = email;
+            var modalPhone1 = contactDetailsModal.querySelector('.modal-primary-phone');
+            modalPhone1.textContent = phone1;
+            var modalPhone2 = contactDetailsModal.querySelector('.modal-secondary-phone');
+            modalPhone2.textContent = phone2;
+            var modalBirthday = contactDetailsModal.querySelector('.modal-birthday');
+            modalBirthday.textContent = birthday;
+            var modalAddress = contactDetailsModal.querySelector('.modal-street-address');
+            modalAddress.textContent = address;
+        })
+    </script>
+</body>
+</html>

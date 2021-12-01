@@ -23,13 +23,9 @@ body {
 }
 
 .button-default-width {
-    width: 225px;
-}
-
-.button-default-sm-width {
-    width: 75px;
+  width:225px;
 }
 
 .padding-top-25 {
-    padding-top: 25px;
+  padding-top:25px;
 }
