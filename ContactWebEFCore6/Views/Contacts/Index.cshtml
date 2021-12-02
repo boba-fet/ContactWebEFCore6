@@ -86,7 +86,6 @@
                 @Html.HiddenFor(modelItem => item.UserId)
             </td>
             <td>
-                <input type="hidden" asp-for="@item.UserId" />
                 <a class="btn btn-outline-primary btn-sm button-default-sm-width" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                 <a class="btn btn-outline-secondary btn-sm button-default-sm-width" href="#" data-bs-toggle="modal" data-bs-target="#contactDetailsModal" 
                     data-bs-friendlyName="@item.FriendlyName" data-bs-firstName="@item.FirstName" data-bs-lastName="@item.LastName"

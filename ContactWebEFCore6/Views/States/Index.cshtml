@@ -9,7 +9,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table id="states_table" class="table">
     <thead>
         <tr>
             <th>
@@ -31,11 +31,72 @@
                 @Html.DisplayFor(modelItem => item.Abbreviation)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a class="btn btn-outline-primary btn-sm button-default-sm-width" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                <a class="btn btn-outline-secondary btn-sm button-default-sm-width" href="#" data-bs-toggle="modal" data-bs-target="#stateDetailsModal" 
+                    data-bs-name="@item.Name" data-bs-abbreviation="@item.Abbreviation" data-bs-stateId="@item.Id">Details</a> 
+                <form asp-action="Delete" asp-route-id="@item.Id" method="post">
+                    <button type="submit" class="btn btn-danger btn-sm button-default-sm-width"
+                        onclick="return confirm('Are you sure you want to delete the state @item.Name?');">Delete</button>
+                </form>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+<div id="stateDetailsModal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">State Name</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <dl class="row">
+                        <dt class = "col-sm-4">
+                            State
+                        </dt>
+                        <dd class = "col-sm-8">
+                            <span class="modal-state-name">
+                        </dd>
+                        <dt class = "col-sm-4">
+                            Abbreviation
+                        </dt>
+                        <dd class = "col-sm-8">
+                            <span class="modal-state-abbreviation">
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts 
+{
+    <script type="text/javascript">
+        $("#states_table").DataTable();
+
+        var statesModal = document.getElementById('stateDetailsModal')
+        
+        statesModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+
+            var name = button.getAttribute('data-bs-name');
+            var abbreviation= button.getAttribute('data-bs-abbreviation');
+            var stateId = button.getAttribute('data-bs-stateId');
+
+            var modalTitle = statesModal.querySelector('.modal-title');
+            modalTitle.textContent = name;
+            var modalStateName = statesModal.querySelector('.modal-state-name');
+            modalStateName.textContent = name;
+            var modalStateAbbreviation = statesModal.querySelector('.modal-state-abbreviation');
+            modalStateAbbreviation.textContent = abbreviation;
+        });
+
+    </script>
+}
