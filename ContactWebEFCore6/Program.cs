@@ -16,6 +16,22 @@ builder.Services.AddDbContext<MyContactManagerDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+var contextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
+    .UseSqlServer(connectionString)
+    .Options;
+using (var context = new ApplicationDbContext(contextOptions))
+{
+    context.Database.Migrate();
+}
+
+var contextOptions2 = new DbContextOptionsBuilder<MyContactManagerDbContext>()
+    .UseSqlServer(mcmdContext)
+    .Options;
+using (var context = new MyContactManagerDbContext(contextOptions2))
+{
+    context.Database.Migrate();
+}
+
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
