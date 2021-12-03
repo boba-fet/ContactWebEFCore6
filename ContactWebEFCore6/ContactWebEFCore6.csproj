@@ -5,9 +5,11 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-ContactWebEFCore6-0090AE31-94A8-496D-A320-A47AC4A04536</UserSecretsId>
+    <ApplicationInsightsResourceId>/subscriptions/423f9c97-b5be-43e5-b0ea-905c5094e891/resourceGroups/MVC-Quickstart-ContactWeb/providers/microsoft.insights/components/contactwebdeveloper-bobafet</ApplicationInsightsResourceId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.0-*" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.0-*" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.0-*" />

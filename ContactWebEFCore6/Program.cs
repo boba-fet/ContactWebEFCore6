@@ -42,6 +42,7 @@ builder.Services.AddScoped<IStatesService, StatesService>();
 builder.Services.AddScoped<IContactsRepository, ContactsRepository>();
 builder.Services.AddScoped<IContactsService, ContactsService>();
 builder.Services.AddScoped<IUserRolesService, UserRolesService>();
+builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
 
 var app = builder.Build();
 
